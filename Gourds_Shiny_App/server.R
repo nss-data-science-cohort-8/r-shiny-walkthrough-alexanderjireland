@@ -79,13 +79,29 @@ function(input, output, session) {
     })
     
     output$map <- renderLeaflet({
-      leaflet(gourds) |> 
+      leaflet(
+        geo_WI_gourds |> 
+          filter(Gourd_Type %in% c(input$gourd_type)) #need to figure out how to get the All button to work
+        ) |> 
         addTiles() |>
         addCircleMarkers(
-          ~longitude, ~latitude,
-          popup = ~paste("City:", city, "<br>", "Weight: ", weight_lbs, "lbs"),
-          radius = 5,
-          color = "red"
+          ~long, ~lat,
+          popup = ~paste("Location:", location, "<br>", 
+                         "Gourd: ", Gourd_Type, "<br>", 
+                         "Weight: ", weight_lbs, "lbs", "<br>", 
+                         "Place: ", place, "<br>",
+                         "Year :", year_bk),
+          radius = ~place_weight, #1795 place max
+          color = ~color,
+          fillColor = ~color,
+          opacity = .5
+        ) |> 
+        addLegend(
+          "bottomright",
+          colors = unname(gourd_colors),
+          labels = names(gourd_colors),
+          title = "Gourd Types",
+          opacity = 1
         )
     })
     
