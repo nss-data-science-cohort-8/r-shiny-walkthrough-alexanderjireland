@@ -80,7 +80,7 @@ function(input, output, session) {
     
     output$map <- renderLeaflet({
       leaflet(
-        geo_WI_gourds |> 
+        geo_US_gourds |> 
           filter(Gourd_Type %in% c(input$gourd_type)) #need to figure out how to get the All button to work
         ) |> 
         addTiles() |>
