@@ -10,37 +10,38 @@
 
 # Define UI for application that draws a histogram
 fluidPage(
-
-    # Application title
-    titlePanel("Gourds Data"),
-
-    # Sidebar with a slider input for number of bins
-    sidebarLayout(
-        sidebarPanel(
-          shinyjs::useShinyjs(),
-          id = 'side-panel',
-            checkboxGroupInput("gourd_type",
-                               "Select Gourd Type",
-                               choices = c("All", gourds |> distinct(Gourd_Type) |> pull(Gourd_Type) |> sort()),
-                               select = 1),
-            actionButton("reset_input", "Reset"),
-          tags$hr(),
-        ),
-
-        # Show a plot of the generated distribution
-        mainPanel(
-          tabsetPanel(
-            tabPanel("Histogram", plotOutput("distPlot"),
-                     sliderInput("bins",
-                                 "Number of bins:",
-                                 min = 1,
-                                 max = 50,
-                                 value = 15)),
-            tabPanel("Box Plot", plotOutput("boxPlot")),
-            tabPanel("Line Plot", plotOutput("linePlot")),
-            tabPanel("Map", leafletOutput("map"),
-                     actionButton('plotMap', "Plot Map"))
-          )
-        )
+  
+  # Application title
+  titlePanel("Gourds Data"),
+  
+  # Sidebar with a slider input for number of bins
+  sidebarLayout(
+    sidebarPanel(
+      shinyjs::useShinyjs(),
+      id = 'side-panel',
+      checkboxGroupInput("gourd_type",
+                         "Select Gourd Type",
+                         choices = c("All", gourds |> distinct(Gourd_Type) |> pull(Gourd_Type) |> sort()),
+                         select = 1),
+      actionButton("reset_input", "Reset"),
+      tags$hr(),
+    ),
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Histogram", plotOutput("distPlot"),
+                 sliderInput("bins",
+                             "Number of bins:",
+                             min = 1,
+                             max = 50,
+                             value = 15)),
+        tabPanel("Box Plot", plotOutput("boxPlot")),
+        tabPanel("Line Plot", plotOutput("linePlot")),
+        tabPanel("Map", leafletOutput("map"),
+                 actionButton('plotMap', "Plot Map")),
+        tabPanel("Top 10 Finishes", plotOutput("sunPlot"))
+      )
     )
+  )
 )
